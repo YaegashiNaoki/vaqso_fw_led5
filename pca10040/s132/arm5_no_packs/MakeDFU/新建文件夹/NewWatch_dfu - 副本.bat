@@ -1,0 +1,3 @@
+//nrfutil pkg generate --debug-mode --hw-version 52 --sd-req 0x8c --application-version 1 --application ../_build/nrf52832_xxaa.hex --key-file V3_key.pem V3_AppDfuPack_%Date:~0,4%%Date:~5,2%%Date:~8,2%_%time:~0,2%%time:~3,2%%time:~6,2%%.zip
+nrfutil pkg generate --debug-mode --hw-version 52 --sd-req 0xaf --application-version 1 --application ../_build/nrf52832_xxaa.hex --key-file V3_key.pem V3_AppDfuPack_%Date:~0,4%%Date:~5,2%%Date:~8,2%_%time:~0,2%%time:~3,2%%time:~6,2%%.zip
+pause

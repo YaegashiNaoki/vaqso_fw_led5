@@ -1,0 +1,118 @@
+0.
+SES用户可以添加如下脚本，以通过外部工具（CMSIS Configuration Wizard）来图形化解析sdk_config.h文件：
+打开SES，选择 File -> Open Studio Folder... -> External Tools Configuration，然后tools.xml文件将会打开，在 </tools>行之前插入如下文本 :
+<item name="Tool.CMSIS_Config_Wizard" wait="no">
+    <menu>&amp;CMSIS Configuration Wizard</menu>
+    <text>CMSIS Configuration Wizard</text>
+    <tip>Open a configuration file in CMSIS Configuration Wizard</tip>
+    <key>Ctrl+Y</key>
+    <match>*config*.h</match>
+    <message>CMSIS Config</message>
+    <commands>
+      java -jar &quot;$(CMSIS_CONFIG_TOOL)&quot; &quot;$(InputPath)&quot;
+    </commands>
+</item>
+ 注意：由于CMSIS Configuration Wizard是一个Java应用程序，所以你必须先安装Java运行时环境（JRE）才能运行该工具。
+然后你可以通过如下界面编辑sdk_config.h文件：
+在sdk_config.h文件点右键，选择CMSIS configraCion Wizard
+
+`
+
+1.
+测试结果： 如果client端是iphone7 ，结果在lightblue上收到了244个字节 
+如果client端是iphone6s，结果在lightblue上收到181个字节
+原因是iphone6s 支持的最大MTU是185byte
+
+// NRF_SDH_BLE_GATT_MAX_MTU_SIZE 243
+// NRF_SDH_BLE_GATT_MAX_MTU_SIZE 243
+
+// 苹果这边现在接收的每条数据最大是182 Byte,
+// 安卓那边能242 Byte,iPhone 端如何基于CoreBluetooth或者底层的API修改ATT_MTU size呢?  
+
+
+2. NRF52832 RESET脚做GPIO
+
+找到    #if defined (CONFIG_GPIO_AS_PINRESET) 这个宏 ，在
+
+在 Option的C/C++ 和 Asm 项把CONFIG_GPIO_AS_PINRESET去掉
+把这个CONFIG_GPIO_AS_PINRESET宏给去掉 这样就不打开，复位脚功能
+
+编译程序下载进去，
+
+然后再次把用工具把芯片程序erase，
+
+在下下载sdk，和程序就没有打开reset的功能了。
+
+编译下载后一定要把芯片程序全部擦除，然后再重新烧录softdevice 和应用程序，不然复位脚依然无法使用。
+
+
+
+
+/*
+气味ID + 出厂时间(yyyymmddhhmmss.ms ms ms)+ 流水号()(0~255) + 13位国际条形码(备用)，
+
+(U16)ID + (U16)yyyy + (U8)mm + (U8)dd + (U8)hh + (U8)mm + (U8)ss + (U16)milliSecond + (U8)(流水号) + 
+
+13位国际条形码,示列, 6 90 12 36 34 19 64
+BCD码
+0x06
+0x90
+0x12
+0x36
+0x34
+0x19
+0x64
+还是要
+0x06
+0x5A
+0x0C
+0x24
+
+
+<message-id: integer>
+<message-id: integer>;<textfield1: text>;<textfield2: text>
+<message-id: integer>;<textfield1: text>;<textfield2: text>;<auto-remove-timeout: integer [optional]>
+*/
+
+//#pragma pack(1)
+
+//// 生产时间，精确到秒
+//typedef struct data_time_t {
+//	uint8_t     year;
+//	uint8_t     mon;
+//	uint8_t     day;
+//	uint8_t     hour;
+//	uint8_t     min;
+//	uint8_t     sec;
+//    uint16_t    msec;
+//} data_time_t;
+
+//// 13位条形码 BCD码
+//typedef struct international_bar_codes_t {
+//	uint8_t  code[7]; 
+///**
+// * example:barcodes is: 6 90 12 36 34 19 64 
+// * BCD    code[0]=0x06, code[1]=0x90, code[1]=0x12, code[2]=0x36, code[3]=0x34, code[4]=0x19, code[5] = 0x64;
+// * 10进制 code[0]=0x06, code[1]=0x5A, code[1]=0x0C, code[2]=0x24, code[3]=0x22, code[4]=0x13, code[5] = 0x40;
+// */    
+//} international_bar_codes_t;
+
+////墨盒信息
+//typedef struct cartridge_info_t {
+//    uint16_t                    id;                     /**< 墨盒ID. */
+//	data_time_t                 dateOfManufacture;      /**< 墨盒生产的时间.  */
+//    uint8_t                     serialNumber;           /**< 生产线的流水号.  */
+//    international_bar_codes_t   internationalBarCodes;  /**< 国际条形码.  */
+//} cartridge_info_t;
+//#pragma pack()
+
+
+/*
+
+#include "ble_dfu.h"
+
+ ble_dfu_buttonless_bootloader_start_prepare(); //手动进入DFU模式
+
+*/
+
+//#include <intrins.h>

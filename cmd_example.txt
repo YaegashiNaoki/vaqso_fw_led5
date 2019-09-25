@@ -1,0 +1,156 @@
+CMD_CORE(0x00):
+	LetTheDeviceIntoDFU: 
+	7E 00 01 00 00 01 7F
+
+	Get FirmwareVersion: 
+	7E 00 02 00 00 02 7F
+
+	Get BatteryInfo£º
+	7E 00 03 00 00 03 7F
+		
+	Get BLE_Device_UDID:
+	7E 00 04 00 00 04 7F
+		
+	Reboot System:
+	7E 00 05 00 00 05 7F
+	
+	
+CMD_AIR_FAN(0x10):
+	All AirFan Set On:
+	7E 10 01 05 00 FF FF FF FF FF EB 7F
+	
+	All AirFan Set Off:
+	7E 10 01 05 00 00 00 00 00 00 14 7F
+	
+	Set Channel 1~4 AirFan On, and Set Channel 5 AirFan Off:
+	7E 10 01 05 00 00 00 00 00 10 04 7F
+	
+	Set Channel 1 AirFan On:
+	7E 10 02 02 00 01 FF EE 7F
+	
+	Set Channel 1 AirFan Off:
+	7E 10 02 02 00 01 00 11 7F
+
+	Set Channel 5 AirFan On:
+	7E 10 02 02 00 05 FF EA 7F
+	
+	Set Channel 5 AirFan Off:
+	7E 10 02 02 00 05 00 15 7F
+	
+CMD_LIGHT(0x20):
+	Set RGB_LED Num1 with the yellow color, Num2 with the white color:
+	7E 20 01 07 00 02 FF FF 00 FF FF FF DB 7F
+	
+	Set Five Num Of RGB_LED Color, 1=Red/ 2=Green/ 3=Cyan, 4=Yellow / 5=White:
+	7E 20 01 10 00 05 FF 00 00 00 FF 00 00 FF FF FF FF 00 FF FF FF CB 7F
+	
+	Set Five RGB_LED Color With Black, from index 1 to 5(TurnOff):
+	7E 20 01 10 00 05 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 34 7F
+
+	Set RGB_LED Color, 2&3=Yellow:
+	7E 20 02 05 00 FF FF 00 03 02 26 7F
+	
+	Set all(15P)  of the RGB_LED Color is White(TurnOn):
+	7E 20 02 05 00 FF FF FF 01 0F D6 7F
+	
+	Set all(15P) of the RGB_LED Color is Black(TurnOff):
+	7E 20 02 05 00 00 00 00 01 0F 29 7F
+	
+	Set The LightSequence Notice that the channel 1 Smell Cartridge Ecpiration:
+	7E 20 03 01 00 01 23 7F
+	
+	Set The LightSequence Notice that the channel 2 Smell Cartridge Ecpiration:
+	7E 20 03 01 00 02 20 7F
+	
+	Set The LightSequence Notice that the channel 3 Smell Cartridge Ecpiration:
+	7E 20 03 01 00 03 21 7F
+	
+	Set The LightSequence Notice that the channel 4 Smell Cartridge Ecpiration:
+	7E 20 03 01 00 04 26 7F
+	
+	Set The LightSequence Notice that the channel 5 Smell Cartridge Ecpiration:
+	7E 20 03 01 00 05 27 7F
+	
+	Flush All The LightSequence:
+	7E 20 03 01 00 00 22 7F
+	
+	
+CMD_CARTRIDGE(0x30):
+	Check All The Smell Cartridge Status.
+	7E 30 01 00 00 31 7F
+	
+	Write The Channel 1 Cartridge Information: ID= 0x1234, 2019-08-05,16:38:08.240, serialNum=9, ExpiryDays=365:
+	7E 30 02 0E 00 01 34 12 13 08 05 10 26 08 f0 00 09 6D 01 AE 7F
+	
+	Read The Channel 1 Cartridge Information:
+	7E 30 03 01 00 01 33 7F
+	
+	Write The Channel 1 Cartridge Enabling Date: 2019-08-14,16:38:08:
+	7E 30 04 07 00 01 13 08 0E 10 26 08 19 7F
+	
+	Read The Channel 1 Cartridge Enabling Date And Expiryday:
+	7E 30 05 01 00 01 35 7F
+	
+	
+CMD_TEST(0x71)
+	Set All The AirFan TurnOn:
+	7E 71 01 02 00 FF FF 72 7F
+	
+	Set All The AirFan TurnOff:
+	7E 71 01 02 00 FF 00 8d 7F
+	
+	RGB_LED Number 1 TurnOn(WhiteColor):
+	7E 71 02 04 00 01 FF FF FF 89 7F
+	
+	RGB_LED Number 1 TurnOff(BlackColor):
+	7E 71 02 04 00 01 00 00 00 76 7F
+	
+	All RGB_LED Set RedColor:
+	7E 71 02 04 00 FF 20 00 00 A8 7F
+	
+	All RGB_LED Set CyanColor:
+	7E 71 02 04 00 FF 00 20 20 88 7F 
+	
+	All RGB_LED Set BlackColor(TurnOff):
+	7E 71 02 04 00 FF 00 00 00 88 7F  
+	
+	Write The Channel 1 Cartridge Information: ID= 0x1234, 2019-08-05,16:38:08.240, serialNum=9, ExpiryDay=365:
+	7E 71 03 0E 00 01 34 12 13 08 05 10 26 08 f0 00 09 6D 01 EE 7F
+	
+	Read The Channel 1 Cartridge Information:
+	7E 71 04 01 00 01 75 7F
+	
+	Write The Channel 1 Cartridge Enabling Date: 2019-08-14,16:38:08:
+	7E 71 05 07 00 01 13 08 0E 10 26 08 59 7F
+	
+	Read The Channel 1 Cartridge Enabling Date And ExpiryDay:
+	7E 71 06 01 00 01 77 7F
+	
+	
+CMD_NOTIFY(0x77_RespCmd)	
+	Smell Cartridge Channel 5 Attach :
+	7E 77 01 02 00 05 01 70 7F
+	
+	Smell Cartridge Channel 5 Detech:
+	7E 77 01 02 00 05 02 73 7F
+		
+	SystemPowerOn:
+	7E 77 02 01 00 01 75 7F
+	
+	SystemPowerOff:
+	7E 77 02 01 00 02 76 7F
+	
+	Battery In Charging:
+	7E 77 03 01 00 01 74 7F
+	
+	Battry In DisCharge:
+	7E 77 03 01 00 04 71 7F
+	
+	
+
+	
+	
+	
+	
+	
+	
